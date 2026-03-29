@@ -1,0 +1,4 @@
+*.crc
+__pycache__/
+venv/
+output/
