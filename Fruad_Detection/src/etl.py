@@ -51,7 +51,8 @@ def transform_data(df):
     #  Derive age from dob
     df=df.withColumn("age", F.floor(F.months_between(F.current_date(), F.col("dob"))/12) )
     # 5. Tokenize cc_num → first4_last4 TODO
-    df=df.withColumn("cc_token",F.concat(F.substring("cc_num",1,4), F.lit("****"),F.substring("cc_num", -1,4)))
+    df=df.withColumn("cc_token",F.concat(F.substring("cc_num",1,4), 
+                                         F.lit("****"),F.substring("cc_num", -4,4)))
     # 6. Calculate distance between cardholder and merchant TODO
     df=df.withColumn("dist", 
                      F.sqrt(
@@ -66,6 +67,6 @@ def transform_data(df):
 
 if __name__=="__main__":
     spark= create_spark_session()
-    df=transform_data(load_data(spark, "data/fraudTrain.csv"))
+    df=transform_data(load_data(spark, "data/fraudTrain.csv")) #data downloaded from kaggle 
     df.show(5)
     save_data(df,"output/fraud_data")
