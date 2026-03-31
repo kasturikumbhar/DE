@@ -1,6 +1,6 @@
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
-
+from features import add_velocity_features
 def create_spark_session() -> SparkSession :
 
     spark=SparkSession.builder\
@@ -35,7 +35,8 @@ def transform_data(df):
     "gender",
     "dob",                    # → derive age
     "trans_num",              # unique transaction ID
-    "is_fraud"                # target variable!
+    "is_fraud" ,               # target variable!
+    "unix_time"
     ]
         # Step 1: Select req columns
     
@@ -68,5 +69,7 @@ def transform_data(df):
 if __name__=="__main__":
     spark= create_spark_session()
     df=transform_data(load_data(spark, "data/fraudTrain.csv")) #data downloaded from kaggle 
+    df=add_velocity_features(df)
     df.show(5)
+
     save_data(df,"output/fraud_data")
