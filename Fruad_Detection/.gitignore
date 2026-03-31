@@ -1,5 +1,7 @@
+data/
+*.csv
+output/
+venv/
 *.crc
 __pycache__/
-venv/
-output/
-data/
+.DS_Store
