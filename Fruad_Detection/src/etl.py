@@ -1,6 +1,7 @@
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 from features import add_velocity_features
+from detect import prepare_feature_vector, train_model, evaluate_model
 def create_spark_session() -> SparkSession :
 
     spark=SparkSession.builder\
@@ -70,6 +71,12 @@ if __name__=="__main__":
     spark= create_spark_session()
     df=transform_data(load_data(spark, "data/fraudTrain.csv")) #data downloaded from kaggle 
     df=add_velocity_features(df)
+    df=prepare_feature_vector(df)
     df.show(5)
+    model, predictions=train_model(df)
+    evaluate_model(predictions)
 
-    save_data(df,"output/fraud_data")
+
+
+
+    # save_data(df,"output/fraud_data")
