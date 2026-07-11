@@ -1,0 +1,8 @@
+data/
+output/
+venv/
+*.csv
+*.crc
+__pycache__/
+.DS_Store
+*.jar
